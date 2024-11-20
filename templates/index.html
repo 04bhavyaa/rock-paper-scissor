@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors Game</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script>
+        let userScore = 0;
+        let computerScore = 0;
+
+        function handleChoice(userChoice) {
+            fetch("/play", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ choice: userChoice })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("user-choice").textContent = data.user_choice;
+                document.getElementById("computer-choice").textContent = data.computer_choice;
+
+                if (data.winner === "user") {
+                    userScore++;
+                    document.getElementById("result").textContent = "You win!";
+                } else if (data.winner === "computer") {
+                    computerScore++;
+                    document.getElementById("result").textContent = "Computer wins!";
+                } else {
+                    document.getElementById("result").textContent = "It's a draw!";
+                }
+
+                document.getElementById("user-score").textContent = userScore;
+                document.getElementById("computer-score").textContent = computerScore;
+
+                // Stop the game if a player reaches 10 points
+                if (userScore === 10 || computerScore === 10) {
+                    document.getElementById("result").textContent = 
+                        userScore === 10 ? "You are the Champion!" : "Computer is the Champion!";
+                    document.querySelectorAll(".choice-button").forEach(button => button.disabled = true);
+                }
+            });
+        }
+
+        function resetGame() {
+            userScore = 0;
+            computerScore = 0;
+            document.getElementById("user-score").textContent = userScore;
+            document.getElementById("computer-score").textContent = computerScore;
+            document.getElementById("result").textContent = "Game Reset! Choose an option.";
+            document.getElementById("user-choice").textContent = "-";
+            document.getElementById("computer-choice").textContent = "-";
+            document.querySelectorAll(".choice-button").forEach(button => button.disabled = false);
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Rock Paper Scissors</h1>
+        <div class="scoreboard">
+            <div>User: <span id="user-score">0</span></div>
+            <div>Computer: <span id="computer-score">0</span></div>
+        </div>
+        <div class="choices">
+            <div>
+                <strong>Your Choice:</strong> <span id="user-choice">-</span>
+            </div>
+            <div>
+                <strong>Computer's Choice:</strong> <span id="computer-choice">-</span>
+            </div>
+        </div>
+        <div id="result">Game Reset! Choose an option.</div>
+        <div class="buttons">
+            <button class="choice-button" onclick="handleChoice('Rock')">Rock</button>
+            <button class="choice-button" onclick="handleChoice('Paper')">Paper</button>
+            <button class="choice-button" onclick="handleChoice('Scissors')">Scissors</button>
+        </div>
+        <button class="reset-btn" onclick="resetGame()">Reset Game</button>
+    </div>
+</body>
+</html>
