@@ -45,7 +45,6 @@ A simple and interactive **Rock Paper Scissors** game built with Flask, HTML, CS
 ## Screenshots
 ![image](https://github.com/user-attachments/assets/d6ca49b9-ec67-4dc1-9f8c-3326a2ac1473)
 ![image](https://github.com/user-attachments/assets/8be53e47-95e0-441d-a0df-0a81202f8156)
-![image](https://github.com/user-attachments/assets/21802409-474c-4f43-92bb-fad3a6592def)
 
 
 Developed by Bhavya Jha
