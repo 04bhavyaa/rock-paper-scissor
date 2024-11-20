@@ -29,7 +29,6 @@ A simple and interactive **Rock Paper Scissors** game built with Flask, HTML, CS
     http://127.0.0.1:5000
     ```
 4. Play the game!
-   ```
 
 ## File Structure
 ```bash
